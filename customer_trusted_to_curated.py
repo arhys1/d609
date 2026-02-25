@@ -26,14 +26,14 @@ DEFAULT_DATA_QUALITY_RULESET = """
     ]
 """
 
-# Script generated for node Accelerometer Landing
-AccelerometerLanding_node1771969292631 = glueContext.create_dynamic_frame.from_catalog(database="stedi_db", table_name="accelerometer_landing", transformation_ctx="AccelerometerLanding_node1771969292631")
+# Script generated for node Accelerometer Trusted
+AccelerometerTrusted_node1771969292631 = glueContext.create_dynamic_frame.from_catalog(database="stedi_db", table_name="accelerometer_trusted", transformation_ctx="AccelerometerTrusted_node1771969292631")
 
 # Script generated for node Customer Trusted
 CustomerTrusted_node1771969318202 = glueContext.create_dynamic_frame.from_catalog(database="stedi_db", table_name="customer_trusted", transformation_ctx="CustomerTrusted_node1771969318202")
 
 # Script generated for node Customer Privacy Filter (Join)
-CustomerPrivacyFilterJoin_node1771969338416 = Join.apply(frame1=AccelerometerLanding_node1771969292631, frame2=CustomerTrusted_node1771969318202, keys1=["user"], keys2=["email"], transformation_ctx="CustomerPrivacyFilterJoin_node1771969338416")
+CustomerPrivacyFilterJoin_node1771969338416 = Join.apply(frame1=AccelerometerTrusted_node1771969292631, frame2=CustomerTrusted_node1771969318202, keys1=["user"], keys2=["email"], transformation_ctx="CustomerPrivacyFilterJoin_node1771969338416")
 
 # Script generated for node Drop Unwanted Fields and Duplicates
 SqlQuery0 = '''
