@@ -26,14 +26,14 @@ DEFAULT_DATA_QUALITY_RULESET = """
     ]
 """
 
-# Script generated for node Step Trainer Landing
-StepTrainerLanding_node1771969292631 = glueContext.create_dynamic_frame.from_catalog(database="stedi_db", table_name="step_trainer_landing", transformation_ctx="StepTrainerLanding_node1771969292631")
-
 # Script generated for node Customer Curated
-CustomerCurated_node1771969318202 = glueContext.create_dynamic_frame.from_catalog(database="stedi_db", table_name="customer_curated", transformation_ctx="CustomerCurated_node1771969318202")
+CustomerCurated_node1772035058008 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://arhys-d609/customer/curated/"], "recurse": True}, transformation_ctx="CustomerCurated_node1772035058008")
+
+# Script generated for node Step Trainer Landing
+StepTrainerLanding_node1772035088791 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://arhys-d609/step_trainer/landing/"], "recurse": True}, transformation_ctx="StepTrainerLanding_node1772035088791")
 
 # Script generated for node Rename CC Serial Number
-RenameCCSerialNumber_node1771979673140 = RenameField.apply(frame=CustomerCurated_node1771969318202, old_name="serialnumber", new_name="cc_serialnumber", transformation_ctx="RenameCCSerialNumber_node1771979673140")
+RenameCCSerialNumber_node1771979673140 = RenameField.apply(frame=CustomerCurated_node1772035058008, old_name="serialnumber", new_name="cc_serialnumber", transformation_ctx="RenameCCSerialNumber_node1771979673140")
 
 # Script generated for node Join ST Landing and CC on serialnumber
 SqlQuery0 = '''
@@ -41,7 +41,7 @@ SELECT * FROM T1
 INNER JOIN T2
 ON T1.serialnumber = T2.cc_serialnumber;
 '''
-JoinSTLandingandCConserialnumber_node1771979499512 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"T1":StepTrainerLanding_node1771969292631, "T2":RenameCCSerialNumber_node1771979673140}, transformation_ctx = "JoinSTLandingandCConserialnumber_node1771979499512")
+JoinSTLandingandCConserialnumber_node1771979499512 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"T2":RenameCCSerialNumber_node1771979673140, "T1":StepTrainerLanding_node1772035088791}, transformation_ctx = "JoinSTLandingandCConserialnumber_node1771979499512")
 
 # Script generated for node Drop Unwanted Fields
 SqlQuery1 = '''
